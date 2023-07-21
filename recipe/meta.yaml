@@ -31,14 +31,11 @@ test:
   requires: 
     - pip
     - pytest
-    # brotlicffi isn't available on osx-arm64
-    - brotlicffi  # [not (osx and arm64)]
-    - brotlipy    # [osx and arm64]
+    - brotlipy
   commands: 
     - pip check
     # # see https://github.com/getlogbook/logbook/issues/308
-    - pytest tests -vv  # [not (osx and arm64)]
-    - pytest tests -vv -k "not(test_compression_file_handler[ContextEnteringStrategy-False] or test_compression_file_handler[PushingStrategy-False])" # [not (osx and arm64)]
+    - pytest tests -vv -k "not(test_compression_file_handler[ContextEnteringStrategy-False] or test_compression_file_handler[PushingStrategy-False])"
 
 about:
   home: https://github.com/getlogbook/logbook
