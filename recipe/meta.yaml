@@ -9,34 +9,43 @@ source:
   sha256: 66f454ada0f56eae43066f604a222b09893f98c1adc18df169710761b8f32fe8 
 
 build:
- number: 7
- script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - {{ compiler('c') }}
   host:
     - python
     - pip
+    - setuptools
+    - wheel
   run:
     - python
 
 test:
   imports:
     - logbook
+  source_files:
+    - tests
+  requires: 
+    - pip
+    - pytest
+    - brotlipy
+  commands: 
+    - pip check
+    # # see https://github.com/getlogbook/logbook/issues/308
+    - pytest tests -vv -k "not(test_compression_file_handler[ContextEnteringStrategy-False] or test_compression_file_handler[PushingStrategy-False])"
 
 about:
   home: https://github.com/getlogbook/logbook
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
-  summary: 'Logbook is a nice logging replacement' 
-
+  summary: Logbook is a nice logging replacement
   description: |
-    Logbook is a nice logging replacement.
-  doc_url: http://logbook.readthedocs.org
+    Logbook is a logging system for Python that replaces the standard library's logging module. It was designed with both complex and simple applications in mind and the idea to make logging fun.
+  doc_url: https://logbook.readthedocs.io
   dev_url: https://github.com/getlogbook/logbook
 
 extra:
