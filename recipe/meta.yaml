@@ -44,7 +44,7 @@ about:
   license_file: LICENSE
   summary: Logbook is a nice logging replacement
   description: |
-    Logbook is a nice logging replacement.
+    Logbook is a logging system for Python that replaces the standard library's logging module. It was designed with both complex and simple applications in mind and the idea to make logging fun.
   doc_url: https://logbook.readthedocs.io
   dev_url: https://github.com/getlogbook/logbook
 
