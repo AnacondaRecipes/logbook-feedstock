@@ -1,41 +1,47 @@
-{% set version = "1.5.3" %}
+{% set name = "logbook" %}
+{% set version = "1.8.2" %}
 
 package:
-  name: logbook
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/L/Logbook/Logbook-{{ version }}.tar.gz
-  sha256: 66f454ada0f56eae43066f604a222b09893f98c1adc18df169710761b8f32fe8 
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 6d19797c1646ef2f518fe207ae88d2415487085044f5fa5f1cd725b9ab0dd329 
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: true  # [py<39]
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - python
     - pip
-    - setuptools
+    - python
     - wheel
+    - setuptools
+    - cython
   run:
     - python
+  run_constrained:
+    - execnet >=1.0.9
+    - sqlalchemy >=1.4
 
 test:
   imports:
     - logbook
   source_files:
     - tests
-  requires: 
-    - pip
-    - pytest
-    - brotlipy
   commands: 
     - pip check
-    # # see https://github.com/getlogbook/logbook/issues/308
-    - pytest tests -vv -k "not(test_compression_file_handler[ContextEnteringStrategy-False] or test_compression_file_handler[PushingStrategy-False])"
+    # issue: https://github.com/getlogbook/logbook/issues/308 <- test_compression_file_handler
+    - pytest -v tests --deselect=tests/test_file_handler.py::test_compression_file_handler
+  requires: 
+    - pip
+    - pytest >=6
+    - brotlipy
 
 about:
   home: https://github.com/getlogbook/logbook
@@ -53,3 +59,5 @@ extra:
     - maresb
     - simonvh
     - Ryan-Dmello
+  skip-lints:
+    - should_use_stdlib
