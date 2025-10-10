@@ -43,7 +43,7 @@ test:
   requires: 
     - pip
     - pytest >=6
-    - brotlipy
+    - brotlipy  # [py<312]
 
 about:
   home: https://github.com/getlogbook/logbook
