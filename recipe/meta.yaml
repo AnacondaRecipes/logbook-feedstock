@@ -1,13 +1,13 @@
 {% set name = "logbook" %}
-{% set version = "1.8.2" %}
+{% set version = "1.9.2" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 6d19797c1646ef2f518fe207ae88d2415487085044f5fa5f1cd725b9ab0dd329 
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 0538cabfd8e8a02b8185fb7a2be20b3965d225fbd7f4a5726b007d8e26b39ee0
 
 build:
   number: 0
@@ -35,12 +35,12 @@ test:
     - logbook
   source_files:
     - tests
-  commands: 
+  commands:
     - pip check
     # issue: https://github.com/getlogbook/logbook/issues/308 <- test_compression_file_handler
     # brotlipy is not available for py>311.
     - pytest -v tests --deselect=tests/test_file_handler.py::test_compression_file_handler  # [py<312]
-  requires: 
+  requires:
     - pip
     - pytest >=6
     - brotlipy  # [py<312]
