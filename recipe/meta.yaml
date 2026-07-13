@@ -31,6 +31,7 @@ requirements:
   run_constrained:
     - execnet >=1.0.9
     - sqlalchemy >=1.4
+    - brotli >=1.1.0
 
 test:
   imports:
@@ -40,12 +41,12 @@ test:
   commands:
     - pip check
     # issue: https://github.com/getlogbook/logbook/issues/308 <- test_compression_file_handler
-    # brotlipy is not available for py>311.
-    - pytest -v tests --deselect=tests/test_file_handler.py::test_compression_file_handler  # [py<312]
+    # brotlipy is not available for py>311.--deselect=tests/test_file_handler.py::test_compression_file_handler
+    - pytest -v tests 
   requires:
     - pip
     - pytest >=6
-    - brotlipy  # [py<312]
+    - brotli
 
 about:
   home: https://github.com/getlogbook/logbook
