@@ -44,7 +44,7 @@ test:
     - tests
   commands:
     - pip check
-    - pytest -v tests {{ deselected_tests | join(' ') }}
+    - pytest -v tests {{ deselected_tests | join(' ') }} # [osx]
   requires:
     - pip
     - pytest >=6
