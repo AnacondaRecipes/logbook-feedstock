@@ -33,6 +33,10 @@ requirements:
     - sqlalchemy >=1.4
     - brotli >=1.1.0
 
+{% set deselected_tests = [
+  "--deselect=tests/test_utils.py::test_logged_if_slow_deprecated",
+  "--deselect=tests/test_utils.py::test_logged_if_slow_logger"
+] %}
 test:
   imports:
     - logbook
@@ -40,9 +44,7 @@ test:
     - tests
   commands:
     - pip check
-    # issue: https://github.com/getlogbook/logbook/issues/308 <- test_compression_file_handler
-    # brotlipy is not available for py>311.--deselect=tests/test_file_handler.py::test_compression_file_handler
-    - pytest -v tests 
+    - pytest -v tests {{ deselected_tests | join(' ') }}
   requires:
     - pip
     - pytest >=6
