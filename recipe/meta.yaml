@@ -1,5 +1,5 @@
 {% set name = "logbook" %}
-{% set version = "1.9.2" %}
+{% set version = "1.10.1" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 0538cabfd8e8a02b8185fb7a2be20b3965d225fbd7f4a5726b007d8e26b39ee0
+  sha256: 7fdf8d09d60c9eaa4d8d27b37363b4ce277d019f4cae5c259ea03040f7b634b7
 
 build:
   number: 0
@@ -29,14 +29,23 @@ requirements:
     - python
     - typing-extensions >=4.14.0
   run_constrained:
-    - execnet >=1.0.9
-    - sqlalchemy >=1.4
+    # extra brotli
     - brotli >=1.1.0
+    # extra execnet
+    - execnet >=1.5
+    # extra Jinja2
+    - Jinja2 >=2.11.3
+    # extra redis
+    - redis >=4.6.0
+    # extra sqlalchemy
+    - sqlalchemy >=1.4
+    # extra zmq
+    - pyzmq >=27.0.2
 
-{% set deselected_tests = [
-  "--deselect=tests/test_utils.py::test_logged_if_slow_deprecated",
-  "--deselect=tests/test_utils.py::test_logged_if_slow_logger"
-] %}
+{% set deselected_tests = "--deselect=tests/test_utils.py::test_logged_if_slow_deprecated" %}
+{% set deselected_tests = deselected_tests + " --deselect=tests/test_utils.py::test_logged_if_slow_logger" %}
+{% set deselected_tests = deselected_tests + " --deselect=tests/test_utils.py::test_logged_if_slow_reached" %}
+
 test:
   imports:
     - logbook
@@ -44,7 +53,7 @@ test:
     - tests
   commands:
     - pip check
-    - pytest -v tests {{ deselected_tests | join(' ') }} # [osx]
+    - pytest -vv tests {{ deselected_tests }} # [osx]
   requires:
     - pip
     - pytest >=6
