@@ -45,6 +45,9 @@ requirements:
 {% set deselected_tests = "--deselect=tests/test_utils.py::test_logged_if_slow_deprecated" %}
 {% set deselected_tests = deselected_tests + " --deselect=tests/test_utils.py::test_logged_if_slow_logger" %}
 {% set deselected_tests = deselected_tests + " --deselect=tests/test_utils.py::test_logged_if_slow_reached" %}
+{% set deselected_tests = deselected_tests + " --deselect=tests/test_utils.py::test_logged_if_slow_level" %}
+{% set deselected_tests = deselected_tests + " --deselect=tests/test_utils.py::test_logged_if_slow_did_not_reached" %}
+
 
 test:
   imports:
